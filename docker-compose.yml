@@ -10,18 +10,25 @@ services:
     volumes:
       - piprapay_mysql_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - piprapay-net
 
   piprapay-app:
-  build: .
-  restart: unless-stopped
-  depends_on:
-    - piprapay-db
-  environment:
-    DB_HOST: piprapay-db
-    DB_PORT: 3306
-    DB_DATABASE: piprapay
-    DB_USERNAME: piprapay
-    DB_PASSWORD: ${MYSQL_PASSWORD}
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - piprapay-db
+    environment:
+      DB_HOST: piprapay-db
+      DB_PORT: 3306
+      DB_DATABASE: piprapay
+      DB_USERNAME: piprapay
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - piprapay-net
 
 volumes:
   piprapay_mysql_data:
+
+networks:
+  piprapay-net:

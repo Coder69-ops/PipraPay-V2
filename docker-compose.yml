@@ -1,6 +1,7 @@
 services:
   piprapay-db:
     image: mysql:8.0
+    container_name: piprapay-db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: piprapay
@@ -15,6 +16,7 @@ services:
 
   piprapay-app:
     build: .
+    container_name: piprapay-app
     restart: unless-stopped
     depends_on:
       - piprapay-db
@@ -32,3 +34,4 @@ volumes:
 
 networks:
   piprapay-net:
+    driver: bridge

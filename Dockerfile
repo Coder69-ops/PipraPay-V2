@@ -20,3 +20,6 @@ RUN a2enmod rewrite
 WORKDIR /var/www/html
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
+
+RUN echo "ServerName payment.shopsync.studio" > /etc/apache2/conf-available/servername.conf \
+    && a2enconf servername

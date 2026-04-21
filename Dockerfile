@@ -3,15 +3,17 @@ FROM php:8.2-apache
 RUN apt-get update && apt-get install -y \
     unzip curl \
     libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
-    libonig-dev libxml2-dev libxml2-dev \
+    libonig-dev libxml2-dev \
+    libmagickwand-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mysqli mbstring zip exif bcmath gd \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && a2enmod rewrite headers remoteip \
     && echo 'SetEnvIf X-Forwarded-Proto "https" HTTPS=on' > /etc/apache2/conf-available/forwarded-proto.conf \
     && a2enconf forwarded-proto \
     && rm -rf /var/lib/apt/lists/*
 
-    
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 

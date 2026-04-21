@@ -11,4 +11,8 @@ RUN apt-get update && apt-get install -y \
     && a2enconf forwarded-proto \
     && rm -rf /var/lib/apt/lists/*
 
+    
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
+
 WORKDIR /var/www/html
